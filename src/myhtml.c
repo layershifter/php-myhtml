@@ -1,6 +1,15 @@
 #include "php_myhtml.h"
 
+extern zend_class_entry *myhtml_domdocument_class_entry;
+extern zend_function_entry myhtml_domdocument_methods[];
+
+
 PHP_MINIT_FUNCTION (myhtml) {
+    zend_class_entry domdocument_entry;
+    INIT_CLASS_ENTRY(domdocument_entry, "MyHTML\\DOMDocument", myhtml_domdocument_methods);
+
+    myhtml_domdocument_class_entry = zend_register_internal_class(&domdocument_entry);
+
     return SUCCESS;
 }
 
