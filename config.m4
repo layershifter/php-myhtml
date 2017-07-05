@@ -27,7 +27,7 @@ if test "$PHP_MYHTML" = "yes"; then
   ])
 
     PHP_SETUP_LIBXML(MYHTML_SHARED_LIBADD, [
-      PHP_NEW_EXTENSION(myhtml, src/myhtml.c src/parser.c src/classes/myhtml_domdocument.c, $ext_shared)
+      PHP_NEW_EXTENSION(myhtml, src/dom.c src/myhtml.c src/parser.c src/classes/myhtml_domdocument.c, $ext_shared)
       PHP_ADD_BUILD_DIR([$ext_builddir/src/])
       PHP_ADD_EXTENSION_DEP(dom, libxml)
       PHP_SUBST(MYHTML_SHARED_LIBADD)
