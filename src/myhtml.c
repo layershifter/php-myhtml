@@ -1,14 +1,17 @@
 #include "php_myhtml.h"
 
-extern zend_class_entry *myhtml_domdocument_class_entry;
 extern zend_function_entry myhtml_domdocument_methods[];
 
-
 PHP_MINIT_FUNCTION (myhtml) {
-    zend_class_entry domdocument_entry;
-    INIT_CLASS_ENTRY(domdocument_entry, "MyHTML\\DOMDocument", myhtml_domdocument_methods);
+    zend_class_entry domdocument_ce;
+    INIT_CLASS_ENTRY(domdocument_ce, "MyHTML\\DOMDocument", myhtml_domdocument_methods);
 
-    myhtml_domdocument_class_entry = zend_register_internal_class(&domdocument_entry);
+    zend_string *name = zend_string_init(ZEND_STRL("DOMDocument"), 1);
+    zend_string *lc_name = zend_string_tolower(name);
+    zend_class_entry *base_ce = zend_hash_find_ptr(CG(class_table), lc_name);
+    zend_string_release(lc_name);
+
+    zend_register_internal_class_ex(&domdocument_ce, base_ce);
 
     return SUCCESS;
 }
