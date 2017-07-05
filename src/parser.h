@@ -6,7 +6,7 @@
 #include <myhtml/api.h>
 
 xmlDocPtr myhtml_create_doc();
-xmlDocPtr myhtml_parse_string(zval *html);
+xmlDocPtr myhtml_parse_string(zend_string *source);
 
 void myhtml_parse_attrs(xmlNodePtr xml_node, myhtml_tree_node_t *node);
 void myhtml_parse_recursive(xmlNodePtr parent, myhtml_tree_t *tree, myhtml_tree_node_t *node);

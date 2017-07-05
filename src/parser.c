@@ -19,7 +19,7 @@ xmlDocPtr myhtml_create_doc() {
     return xml_doc;
 }
 
-xmlDocPtr myhtml_parse_string(zval *html) {
+xmlDocPtr myhtml_parse_string(zend_string *source) {
     xmlDocPtr doc = myhtml_create_doc();
 
     myhtml_t *myhtml = myhtml_create();
@@ -28,7 +28,7 @@ xmlDocPtr myhtml_parse_string(zval *html) {
     myhtml_tree_t *tree = myhtml_tree_create();
     myhtml_tree_init(tree, myhtml);
 
-    myhtml_parse(tree, MyENCODING_UTF_8, Z_STRVAL_P(html), Z_STRLEN_P(html));
+    myhtml_parse(tree, MyENCODING_UTF_8, source->val, source->len);
     myhtml_tree_node_t *node = myhtml_tree_get_document(tree);
 
     myhtml_parse_recursive((xmlNodePtr) doc, tree, myhtml_node_child(node));
@@ -40,10 +40,10 @@ xmlDocPtr myhtml_parse_string(zval *html) {
 }
 
 void myhtml_parse_recursive(xmlNodePtr parent, myhtml_tree_t *tree, myhtml_tree_node_t *node) {
-    while(node) {
+    while (node) {
         const myhtml_tag_id_t id = myhtml_node_tag_id(node);
 
-        switch(id) {
+        switch (id) {
             case MyHTML_TAG__COMMENT:
             case MyHTML_TAG__TEXT:
                 myhtml_parse_text(parent, node);
